@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game Snake</title>
+    <link rel="stylesheet" href="style/common.css">
+</head>
+
+<body style="background: beige;">
+
+
+    <canvas style="background: lightgreen;" id="canvas" width="600px" height="600px"></canvas>
+
+    <script>
+
+        let cnv = document.getElementById("canvas");
+        let dim = cnv.getContext('2d');
+
+
+
+        //GAMEFIELD
+        function game_field() {
+            dim.fillStyle = "black";
+            dim.fillRect(99, 99, 402, 402);
+            dim.fillStyle = "white";
+            dim.fillRect(100, 100, 400, 400);
+        }
+        game_field();
+
+
+        //FOOD
+        let food_x
+        let food_y
+        function food_spawn() {
+            food_x = Math.floor((Math.random() * 390) + 100);
+            food_y = Math.floor((Math.random() * 390) + 100);
+            dim.fillStyle = "black";
+            dim.fillRect(food_x, food_y, 5, 5);
+        }
+        food_spawn();
+
+
+        //CHARACTER
+        let player_x = 300;
+        let player_y = 300;
+        function character() {
+            dim.fillStyle = "green";
+            dim.fillRect(player_x, player_y, 10, 10);
+        }
+
+        //KEY ACTIONS
+        document.addEventListener('keydown', function (event) {
+            if (event.code == 'KeyA') {
+                if (player_x > 100) {
+                    player_x -= 10;
+                }
+                else {
+                    Death();
+                }
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.code == 'KeyD') {
+                if (player_x < 490) {
+                    player_x += 10;
+                }
+                else {
+                    Death();
+                }
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.code == 'KeyW') {
+                if (player_y > 100) {
+                    player_y -= 10;
+                }
+                else {
+                    Death();
+                }
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.code == 'KeyS') {
+                if (player_y < 490) {
+                    player_y += 10;
+                }
+                else {
+                    Death();
+                }
+            }
+        });
+
+
+
+
+        //DEATH
+        function Death() {
+            alert("You have losed");
+            player_x = 300;
+            player_y = 300;
+            game_field();
+        }
+
+        //SCORE
+        let score = 0;
+
+        //PROGRESS
+        function progress() {
+            if ((player_x = food_x) && (player_y = food_y)) { //ne rabotaet
+                score += 1;
+                game_field();
+                food_spawn();
+                console.log(score);
+                
+            }
+            else {
+                score = score;
+            }
+        }
+
+        //prog
+        let prog = 0;
+
+        //DRAW
+        function Draw() {
+
+            character();
+
+            //game_field();
+
+            for (i = 0; i < score; i++) {
+            }
+
+            progress();
+
+
+            requestAnimationFrame(Draw);
+
+        }
+
+        let game = setInterval(Draw, 10);
+
+
+
+    </script>
+
+</body>
+
+</html>
